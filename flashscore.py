@@ -4,14 +4,6 @@ import re
 import pandas as pd
 
 
-# result = re.findall('^h[a-z]+', 'hmm sdfsf')
-# mylist = ['hmm', 'sada', 'hah']
-# r = re.compile('h')
-# result = list(filter(r.match, mylist))
-#
-# print(result)
-
-
 def get_flashscore_results(sport="", day=0):
     """
     sport - is a string object representing the sport we want to view
