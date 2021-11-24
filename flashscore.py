@@ -25,23 +25,26 @@ def get_flashscore_results(sport="", day=0):
     for league_split in re.split('<h4>', str(score_data))[1:]:
         league = re.search('(.+?)</h4>', league_split).group(1)
         for match in re.split('<br/>', league_split)[:-1]:
-            match_soup = BeautifulSoup(match, 'html.parser')
-            match_span = match_soup.find('span')
-            time = match_span.text
-            match_id = re.search(
-                '.+?href="(/match/.+)".+?', match).group(1)
-            home_team = re.search(
-                '</span>(?:</span>)?(.+?)(?:<.+>)? -', match).group(1)
-            away_team = re.search('- (.+?)<', match).group(1)
-            score = match_soup.find('a').text
-            all_matches = all_matches.append({
-                'league': league,
-                'match_id': match_id,
-                'home_team': home_team,
-                'away_team': away_team,
-                'time': time,
-                'score': score
-                }, ignore_index=True
-            )
+            try:
+                match_soup = BeautifulSoup(match, 'html.parser')
+                match_span = match_soup.find('span')
+                time = match_span.text
+                match_id = re.search(
+                    '.+?href="(/match/.+)".+?', match).group(1)
+                home_team = re.search(
+                    '</span>(?:</span>)?(.+?)(?:<.+>)? -', match).group(1)
+                away_team = re.search('</span>.+- (.+?)<', match).group(1)
+                score = match_soup.find('a').text
+                all_matches = all_matches.append({
+                    'league': league,
+                    'match_id': match_id,
+                    'home_team': home_team,
+                    'away_team': away_team,
+                    'time': time,
+                    'score': score
+                    }, ignore_index=True
+                )
+            except AttributeError:
+                continue
 
     return(all_matches)
