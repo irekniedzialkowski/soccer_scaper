@@ -45,6 +45,28 @@ def get_flashscore_results(sport="", day=0):
                     }, ignore_index=True
                 )
             except AttributeError:
+                print('Throwing Exception')
                 continue
 
     return(all_matches)
+  
+  
+  def reduce_leagues(results):
+    results['first_letter'] = results['league'].apply(lambda x: x[0])
+    next_league = results['first_letter'][1:]
+    next_league.sort_index(inplace=True)
+    previous_league = results['first_letter'][:-1]
+    previous_league = previous_league.reset_index(drop=True)
+
+    last_league = previous_league[next_league.reset_index(
+        drop=True) < previous_league.reset_index(drop=True)]
+
+    if last_league.empty:
+        warn('No leagues removed from the flashscore results')
+        return(results.drop('first_letter', axis=1))
+    else:
+        # getting the index to which we want to get the leagues, we add 1,
+        # since we are always including the first league
+        index = last_league.index.to_list()[0]+1
+        return(results[:index].drop('first_letter', axis=1))
+

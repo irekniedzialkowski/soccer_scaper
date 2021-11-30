@@ -1,52 +1,37 @@
-from redditAPI import get_reddit_media, get_reddit_titles
-from flashscore import get_flashscore_results
+from redditAPI import get_reddit_media
+from flashscore import get_flashscore_results, reduce_leagues
 import datetime
 import itertools
+import re
+from warnings import warn
 
 
-def print_soccer_highlights(day=0):
+def print_soccer_highlights(day=0, url_type = 'video'):
     after = datetime.date.today()
     after = after.replace(day=after.day+day)
     results = get_flashscore_results(day=day)
-    # match_threads = get_reddit_titles(
-    #     search='Match Thread', subreddit='soccer', t='week', after=after)
 
     results = reduce_leagues(results)
 
     previous_league = ''
 
-    for index, row in results.iterrows():
-        media = get_match_media(row['home_team'], row['away_team'],
-                                row['score'], after=after)
-        current_league = row['league']
+    for i in range(results.shape[0]):
+        media = get_match_media(results.loc[i, 'home_team'], results.loc[i, 'away_team'],
+                                results.loc[i, 'score'], after=after)
+        current_league = results.loc[i, 'league']
         if current_league != previous_league:
             previous_league = current_league
             print('')
             print('*********************',
                   current_league, '*********************')
-        print('|'+row['time']+'|', row['home_team'],
-              row['score'], row['away_team'])
+        print('|'+results.loc[i, 'time']+'|', results.loc[i, 'home_team'],
+              results.loc[i, 'score'], results.loc[i, 'away_team'])
         if media.shape[0] > 0:
             print('--------- MATCH HIGHLIGHTS ---------')
-            for index_media, row_media in media.iterrows():
-                print(row_media['title'])
-                print(row_media['url'])
+            for j in range(media.shape[0]):
+                print(media.loc[j, 'title'])
+                print(media.loc[j, 'url'])
             print('')
-
-
-def reduce_leagues(results):
-    results['first_letter'] = results['league'].apply(lambda x: x[0])
-    next_league = results['first_letter'][1:]
-    next_league.sort_index(inplace=True)
-    previous_league = results['first_letter'][:-1]
-    previous_league.sort_index(inplace=True)
-
-    # getting the index to which we want to get the leagues, we add 1,
-    # since we are always including the first league
-    # TO DO: include all leagues if there are no important leagues - print warning
-    index = previous_league[next_league.reset_index(
-        drop=True) < previous_league.reset_index(drop=True)].index.to_list()[0]+1
-    return(results[:index].drop('first_letter', axis=1))
 
 
 def get_match_media(home_team, away_team, score, after):
@@ -57,9 +42,13 @@ def get_match_media(home_team, away_team, score, after):
     any_goal = False
 
     for x in score:
+        x = re.search('([0-9]+)', x).group(1)
         if int(x) > 0:
             any_goal = True
             break
+
+    home_team = home_team.strip()
+    away_team = away_team.strip()
 
     home_team_strings = home_team.split(' ')
     home_team_strings.append('')
