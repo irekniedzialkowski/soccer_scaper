@@ -2,6 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import pandas as pd
+from warnings import warn
+from date_utils import today_add
 
 
 def get_flashscore_results(sport="", day=0):
@@ -21,6 +23,7 @@ def get_flashscore_results(sport="", day=0):
     score_data = soup_flashscore.find("div", {"id": "score-data"})
 
     all_matches = pd.DataFrame()
+    day = today_add(day)
 
     for league_split in re.split('<h4>', str(score_data))[1:]:
         league = re.search('(.+?)</h4>', league_split).group(1)
@@ -30,7 +33,7 @@ def get_flashscore_results(sport="", day=0):
                 match_span = match_soup.find('span')
                 time = match_span.text
                 match_id = re.search(
-                    '.+?href="(/match/.+)".+?', match).group(1)
+                    '.+?href="(/match/.+?/)(?:.+)?".+?', match).group(1)
                 home_team = re.search(
                     '</span>(?:</span>)?(.+?)(?:<.+>)? -', match).group(1)
                 away_team = re.search('</span>.+- (.+?)<', match).group(1)
@@ -41,7 +44,8 @@ def get_flashscore_results(sport="", day=0):
                     'home_team': home_team,
                     'away_team': away_team,
                     'time': time,
-                    'score': score
+                    'score': score,
+                    'day': day
                     }, ignore_index=True
                 )
             except AttributeError:
@@ -49,9 +53,9 @@ def get_flashscore_results(sport="", day=0):
                 continue
 
     return(all_matches)
-  
-  
-  def reduce_leagues(results):
+
+
+def reduce_leagues(results):
     results['first_letter'] = results['league'].apply(lambda x: x[0])
     next_league = results['first_letter'][1:]
     next_league.sort_index(inplace=True)
@@ -69,4 +73,3 @@ def get_flashscore_results(sport="", day=0):
         # since we are always including the first league
         index = last_league.index.to_list()[0]+1
         return(results[:index].drop('first_letter', axis=1))
-

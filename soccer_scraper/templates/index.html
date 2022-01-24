@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <title>Home page</title>
+  </head>
+  <body>
+    <h1>Home Page!</h1>
+
+    {% for time, home_team, score, away_team in zip(times, home_teams, scores, away_teams) %}
+
+    <p>{{time}} {{home_team}} {{score}} {{away_team}}</p>
+
+
+    {% endfor %}
+    <p>
+      {{r}}
+      </p>
+    </body>
+</html>

@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Migrations
+migrations/
+
+# Database files
+*.db
+
+# example html file
+*example.html
