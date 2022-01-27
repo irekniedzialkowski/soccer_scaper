@@ -1,4 +1,13 @@
-# SOCCER SCRAPER
+# Reddit and Flashscore SOCCER SCRAPER
+Flask Application retrieving all videos from reddit and mapping to the matches from flashscore.
+App uses the flask framework to create a website retrieving all the relevant highlights from football/soccer matches.
+
+# Website as of 23 January 2022
+https://irekniedzialkowski.github.io/index
+
+
+# Old version:
+
 Soccer/Football scraping scripts enabling the user to view all the goals and other media highlights directly under results scraped from flashscore.
 
 Use the bellow command to get the print of the scores and highlights from most important games played during the day
