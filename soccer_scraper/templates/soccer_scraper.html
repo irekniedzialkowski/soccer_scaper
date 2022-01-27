@@ -6,70 +6,73 @@
   <!-- <style>
    a { color: #fff; } /* CSS link color */
  </style> -->
-  <title> Soccer scraper </title>
+  <title>  Soccer scraper </title>
   <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/soccer_scraper.css') }}" />
   </head>
   <body>
-    <h1 class="title">Soccer Scraper - Reddit & Flashscore </h1>
+    <h1 class="title"> <img src="{{ url_for('static',filename='reddit_preview_rev_1.png') }}" width="30px" /> <img src="{{ url_for('static',filename='slash_transparent.png') }}" width="30px" /> <img src="{{ url_for('static',filename='flashscore.png') }}" width="30px" />  Soccer Scraper</h1>
 
       <div class = "wrapper", style="max-width: 100%">
 
         <div class="box_wrapper">
           {% for result in results %}
 
-        <div id="{{result.match_id}}">
-          <div class = "match_wrapper">
-            <div class="box">
-              <div class="time">
-                {{result.time}}
+        <div id="{{result.match_id}}" style="height: auto;">
+            <a class="link_class" href="http://www.flashscore.com{{result.match_id}}" target="_blank" >
+              <div class = "another_box_wrapper"> 
+                <div class="box">
+                    <div class="time">
+                      {{result.time}}
+                    </div>
+                  
+                    <div class="home_team"> {{result.home_team}} </div>
+                    <div class="score"> {{result.score}} </div>
+                    <div class="away_team">{{result.away_team}}</div>
+
+                  </div>
               </div>
-              <a class="link_class" href="http://www.flashscore.com{{result.match_id}}" target="_blank" >
-                <div class="home_team"> {{result.home_team}} </div>
-                <div class="score"> {{result.score}} </div>
-                <div class="away_team">{{result.away_team}}</div></a>
-            </div>
+            </a>
             <div class="video_wrapper">
-            {% for video in videos.query.filter_by(match_id=result.match_id).order_by(asc(videos.creation_date)) %}
-            <div class = "url">
-              <a href="{{video.reddit_url}}" target="_blank"  >{{video.title}}</a> 
-              <br/>
-              <!-- <video controls width=500px> -->
-            {% if video.source_video != None %}
-              {% if re.search('\.mp4', video.source_video) %}
-            <video controls name = "media" width=640px preload="metadata">
-              
-              <source src="{{video.source_video}}?" allowfullscreen frameborder="0" style="width:640px;height:360px" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-                {% elif re.search('redditmedia', video.source_video)%}
-                  <div width=640px>
-                    <iframe src="{{video.source_video}}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;width:640px;height:460px" scrolling="no">
-                  Your browser does not support the video tag.
-                  </iframe>
-                  </div>
-                {% else %}
-                  <div width=640px>
-                    <iframe src="{{video.source_video}}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;width:640px;height:360px" scrolling="no">
+                {% for video in videos.query.filter_by(match_id=result.match_id).order_by(asc(videos.creation_date)) %}
+                <div class = "url">
+                  <a href="{{video.reddit_url}}" target="_blank"  >{{video.title}}</a> 
+                  <br/>
+                  <!-- <video controls width=500px> -->
+                {% if video.source_video != None %}
+                  {% if re.search('\.mp4', video.source_video) %}
+                <video controls name = "media" width=640px preload="metadata">
+                  
+                  <source src="{{video.source_video}}?" allowfullscreen frameborder="0" style="width:640px;height:360px" type="video/mp4">
                     Your browser does not support the video tag.
-                    </iframe>
-                  </div>
-            {% endif %}
+                      </video>
+                    {% elif re.search('redditmedia', video.source_video)%}
+                      <div width=640px>
+                        <iframe src="{{video.source_video}}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;width:640px;height:460px" scrolling="no">
+                      Your browser does not support the video tag.
+                      </iframe>
+                      </div>
+                    {% else %}
+                      <div width=640px>
+                        <iframe src="{{video.source_video}}" allowfullscreen sandbox="allow-scripts allow-same-origin allow-popups" style="border: none;width:640px;height:360px" scrolling="no">
+                        Your browser does not support the video tag.
+                        </iframe>
+                      </div>
+                {% endif %}
 
-            {% else %}
-              <!-- <div width=500px>  -->
-                <!-- <iframe src="{{video.url}}" sandbox="allow-scripts" allowfullscreen frameborder="0" style="width:500px;height:300px"> -->
-              <!-- Your browser does not support the video tag. -->
-              <!-- </iframe> -->
-            <!-- </div>  -->
+                {% else %}
+                  <!-- <div width=500px>  -->
+                    <!-- <iframe src="{{video.url}}" sandbox="allow-scripts" allowfullscreen frameborder="0" style="width:500px;height:300px"> -->
+                  <!-- Your browser does not support the video tag. -->
+                  <!-- </iframe> -->
+                <!-- </div>  -->
 
-            {% endif %}
+                {% endif %}
 
-              <!-- </video> -->
-            </div>
-            {% endfor %}
+                  <!-- </video> -->
+                </div>
+                {% endfor %}
+              </div>
           </div>
-        </div>
-      </div>
       {% endfor %}
 
         </div>
@@ -85,13 +88,11 @@
                 <div class="score"> {{result.score}} </div>
                 <div class="away_team">{{result.away_team}}</div></a>
               <br />
-
+              </div> 
               {% endfor %}
                  
-            </div>
+           </div>
 
-
-          </div>
 
         </div>
   </div>
