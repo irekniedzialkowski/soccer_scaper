@@ -1,5 +1,5 @@
 body {
-  background: #101010;
+  background: #161414;
 }
 
 div {
@@ -8,6 +8,22 @@ div {
 
 .box_wrapper {
   flex-direction: column;
+  /* background: #2e3436; */
+  background: #1c1c1e;
+  /* border-left-style: solid;
+  border-right-style: solid;
+
+  border-width: 0.01cm; */
+  border-radius: 8px;
+  /* border-style: dashed; */
+  padding-top:5px;
+  padding-bottom: 5px;
+  border-color: rgb(87, 87, 87);
+  border-left-style: solid;
+  border-right-style: solid;
+  border-bottom-style:solid;
+  border-width: 0.001cm;
+
 }
 
 .wrapper {
@@ -16,20 +32,51 @@ div {
   flex-direction: row;
   justify-content: center;
   margin:0 auto;
+  /* border-style: dotted; */
 }
 
 .aside{
       float: right;
-      width: auto;
       color: #fff;
       margin-right: 10px;
       padding-left: 20px;
       position: sticky;
       top: 10px;
-  }
+      /* border-style: dotted; */
+      width:280px;
+    }
+.aside_match {
+  margin: auto;
+  overflow: auto;
+  width: 280px;
+}
+
+.aside_match .home_team {
+  float:left;
+  width: 120px;
+  text-align: left;
+  flex-direction: column;
+  /* border-style: dotted; */
+}
+    
+.aside_match .score {
+  display: inline-block;
+  text-align: center;
+  width:30px;
+  /* border-style: dotted; */
+
+}
+
+.aside_match .away_team {
+  float:right;
+  text-align: right;
+  width:100;
+  /* border-style: dotted; */
+
+}
 
 
-@media (max-width: 760px) {
+@media (max-width: 950px) {
    .aside {
       display: none;
    }
@@ -41,26 +88,114 @@ element.style {
 
 .title {
   color: #fff;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  /* border-style: dashed; */
+  /* width:1053px;
+  margin:0 auto;
+  padding-left:5px;
+  padding-bottom: 10px; */
+
+  /* justify-content: center; */
   text-align: center;
+
+}
+
+.match_wrapper{
+  /* border-style: solid; */
+  /* border-bottom-style: solid; */
+  /* border-color: rgba(255, 255, 255, 0.479); */
+  /* border-bottom-color: rgba(255, 255, 255, 0.479); */
+  /* border-width: 0.01cm; */
+  /* border-color: #fff;
+  border-style: solid;
+  border-width: 0.001cm; */
+
+
+}
+
+.video_wrapper {
+  background: #242121;
 }
 
 .box {
-  background: #2e3436;
   margin: auto;
-  margin-bottom: 10px;
+  border-style: solid;
+  border-width: 0.001cm;
+  border-color: rgb(27, 26, 26);
   width: 640px;
-  padding:10px;
-  border-radius: 6px;
+  padding-top:10px;
+  padding-bottom:10px;
+  padding-left:10px;
+  padding-right:10px;
   color: #fff;
   text-align: center;
   min-width: 0;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  overflow: auto;
+  border-color: rgb(87, 87, 87);
+  border-bottom-style: solid;
+  border-top-style: solid;
+  border-width: 0.001cm;
+
 }
 
 .box .time {
-  float: left
+  float: left;
+  width : 0px;
+  padding-right: 150px;
+}
+
+.box .home_team {
+  float:left;
+  width: 150px;
+  text-align: left;
+  flex-direction: column;
+  /* border-style: dotted; */
+}
+
+.box .score {
+  display: inline-block;
+  text-align: left;
+  width:50px;
+  /* border-style: dotted; */
+
+}
+.box .away_team {
+  float:right;
+  text-align: right;
+  width:150px;
+  padding-right:80px;
+  /* border-style: dotted; */
+
 }
 
 .url {
   color: #fff;
   text-align: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  padding-top:5px;
 }
+
+.link_class {
+  display: block;
+  width:100%;
+  height:100%;
+}
+
+a:link {
+  text-decoration: none;
+  color: #fff; 
+}
+
+a:visited {
+  text-decoration: none;
+  color: #fff; 
+
+}
+
+a:hover {
+  color: hotpink;
+}
+
+
+ 

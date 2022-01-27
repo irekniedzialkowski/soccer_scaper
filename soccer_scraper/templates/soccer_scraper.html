@@ -3,14 +3,14 @@
 
 <head>
   <meta name="referrer" content="no-referrer" />
-  <style>
+  <!-- <style>
    a { color: #fff; } /* CSS link color */
- </style>
+ </style> -->
   <title> Soccer scraper </title>
   <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/soccer_scraper.css') }}" />
   </head>
   <body>
-    <h1 class="title">Reddit & Flashscore - Soccer scraper</h1>
+    <h1 class="title">Soccer Scraper - Reddit & Flashscore </h1>
 
       <div class = "wrapper", style="max-width: 100%">
 
@@ -18,12 +18,17 @@
           {% for result in results %}
 
         <div id="{{result.match_id}}">
+          <div class = "match_wrapper">
             <div class="box">
               <div class="time">
                 {{result.time}}
               </div>
-              <a href="http://www.flashscore.com{{result.match_id}}" target="_blank" >{{result.home_team}} {{result.score}} {{result.away_team}}</a>
+              <a class="link_class" href="http://www.flashscore.com{{result.match_id}}" target="_blank" >
+                <div class="home_team"> {{result.home_team}} </div>
+                <div class="score"> {{result.score}} </div>
+                <div class="away_team">{{result.away_team}}</div></a>
             </div>
+            <div class="video_wrapper">
             {% for video in videos.query.filter_by(match_id=result.match_id).order_by(asc(videos.creation_date)) %}
             <div class = "url">
               <a href="{{video.reddit_url}}" target="_blank"  >{{video.title}}</a> 
@@ -62,8 +67,10 @@
               <!-- </video> -->
             </div>
             {% endfor %}
+          </div>
         </div>
-        {% endfor %}
+      </div>
+      {% endfor %}
 
         </div>
 
@@ -71,12 +78,17 @@
 
           <div class="aside">
             {% for result in results %}
-
-              <a href="{{url_for('.home', day=day, reload=False,_anchor=result.match_id)}}">{{result.home_team}} {{result.score}} {{result.away_team}}</a>
+            <div class = "aside_match">
+           
+              <a href="{{url_for('.home', day=day, reload=False,_anchor=result.match_id)}}">
+                <div class="home_team"> {{result.home_team}} </div>
+                <div class="score"> {{result.score}} </div>
+                <div class="away_team">{{result.away_team}}</div></a>
               <br />
 
               {% endfor %}
-
+                 
+            </div>
 
 
           </div>

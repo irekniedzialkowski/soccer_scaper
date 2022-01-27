@@ -34,4 +34,4 @@ def map_videos(reddit_media, results,vectorizer, df, day = 0):
     return(reddit_media)
 
 # reddit_media.loc[~reddit_media['match_id'].isnull(), ]
-# reddit_media.loc[reddit_media['similarity']>0, ]
+# reddit_media.loc[reddit_media['similarity']>0, ] - -

@@ -79,12 +79,13 @@ def home(day, reload=True):
     except:
         print("There was an error when adding to a flashscore table... ")
 
-    day=today_add(day)
-    results = Match.query.filter_by(day=day)
+    date_day=today_add(day)
+    results = Match.query.filter_by(day=date_day)
     
     return render_template("soccer_scraper.html",
                            results=results,
                            videos=Videos, 
+                           day=day,
                            asc = asc,
                            re=re)
 

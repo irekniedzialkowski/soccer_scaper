@@ -85,5 +85,5 @@ def update_match_db(day, db, Match):
 
         
 if __name__ == '__main__':
-        update_videos_db(day=0, db=db, Videos=Videos, RedditPosts=RedditPosts, Match=Match)
+        update_videos_db(day=-1, db=db, Videos=Videos, RedditPosts=RedditPosts, Match=Match)
 
