@@ -3,7 +3,7 @@ Flask Application retrieving all videos from reddit and mapping to the matches f
 App uses the Flask framework to create a website retrieving all the relevant highlights from football/soccer matches.
 
 # Website as of May 3, 2022
-https://irekniedzialkowski.github.io/index
+## https://irekniedzialkowski.github.io/index
 
 
 # Old version:
