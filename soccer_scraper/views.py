@@ -20,7 +20,7 @@ def get_league_url(league):
     league_modified = re.sub(" ", "-", league_name)
     league_modified = re.sub("-+", "-", league_modified)
 
-    return f"https://www.flashscore.com/football/{country}/{league_modified}".lower()
+    return f"{country}/{league_modified}".lower()
 
 @app.route("/", defaults={'day': 0})
 @app.route("/<day>")
