@@ -1,0 +1,27 @@
+Soccer scraper site improvements
+- a top bar to change the day of the matches, 
+  side arrows to select different days, 
+  3 days as button on one view - side arrows to change the view,
+  today always stays in the view, 
+  either on the right or at the left/middle
+- additional date button to select day via callendar
+- League table addition and league identifiier on site
+- Side score table with different UI, 
+  1 team per row, each match contained in 2 rows, 
+  a dashed seperator to seperate teams from the same match
+  colored minute of the match, grey the hour of the match - depending on the status
+- match status - finished, during, postponed, not started
+- additional attribute in flashscore table - match status
+- scrollable sidebar with scores
+
+Later:
+List of all matches: 
+- match with 1 team per row, same row the play button 
+  which opens a window with all the goal/hihglights, 
+  and additonal + button with follow functionality, 
+  adds a match to main site, minus button unfollows the match or league
+
+
+Some additional ideas:
+a horizontal bar with 4 day options, with a dropdown menu on click,
+animating to scroll through options.

@@ -1,22 +1,15 @@
-from flask import Flask, redirect, url_for, render_template
-import os
-from flashscore import get_flashscore_results, reduce_leagues
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from sqlalchemy import asc
-import re
-from flask_migrate import Migrate
-from db_utils import update_db
-from date_utils import today_add
+from soccer_scraper import db
 
 
-website = Flask(__name__)
-website.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///soccer.db'
-website.config['SECRET_KEY'] = os.environ.get('REDDIT_SCRAPPER_SECRET')
+class League(db.Model):
+    __tablename__ = 'leagues'
 
-# Initialize the database
-db = SQLAlchemy(website)
-migrate = Migrate(website, db, render_as_batch=True)
+    full_name = db.Column(db.String(100), primary_key = True)
+    country = db.Column(db.String(100), nullable = False)
+    short_name = db.Column(db.String(100), nullable = False)
+    country_icon = db.Column(db.String(200), nullable = True)
+    league_icon = db.Column(db.String(200), nullable = True)
 
 # Create db model
 class Match(db.Model):
@@ -29,7 +22,9 @@ class Match(db.Model):
     time = db.Column(db.String(100), nullable = False)
     score = db.Column(db.String(50), nullable = True)
     day = db.Column(db.DateTime, nullable = True)
-    # important = db.Column(db.Boolean)
+    important = db.Column(db.Boolean, nullable = True)
+    home_score = db.Column(db.String(5), nullable = True)
+    away_score = db.Column(db.String(5), nullable = True)
 
     def __repr__(self) -> str:
         return f"{self.time}: {self.home_team} {self.score} {self.away_team}"
@@ -59,40 +54,3 @@ class RedditPosts(db.Model):
 
     def __repr__(self) -> str:
         return f"{self.title}: {self.reddit_url}, {self.creation_date}"
-
-
-@website.route("/", defaults={'day': 0})
-@website.route("/<day>")
-def home(day, reload=True):
-    try:
-        day = int(day)
-    except ValueError as e:
-        print(f'Overriding {day=} by 0')
-        day = 0
-    
-    if reload:
-        results = get_flashscore_results(day=day)
-        results = reduce_leagues(results)
-
-    try:
-        update_db(results, Match, 'match_id', Match.match_id, db)
-    except:
-        print("There was an error when adding to a flashscore table... ")
-
-    date_day=today_add(day)
-    results = Match.query.filter_by(day=date_day)
-    
-    return render_template("soccer_scraper.html",
-                           results=results,
-                           videos=Videos, 
-                           day=day,
-                           asc = asc,
-                           re=re)
-
-
-if __name__ == '__main__':
-    website.run(debug=True)
-    
-
-
-

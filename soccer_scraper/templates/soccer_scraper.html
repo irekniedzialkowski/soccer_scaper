@@ -2,23 +2,42 @@
 <html>
 
 <head>
+  <script type="text/javascript">
+      function reload(div_id) {
+      console.log("In the reload function");
+      var container = document.getElementById(div_id);
+      var content = container.innerHTML;
+      container.innerHTML= content; 
+      
+    //this line is to watch the result in console , you can remove it later	
+      console.log("Refreshed"); 
+    }
+  </script>
   <meta name="referrer" content="no-referrer" />
-  <!-- <style>
-   a { color: #fff; } /* CSS link color */
- </style> -->
   <title>  Soccer scraper </title>
   <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/soccer_scraper.css') }}" />
   </head>
   <body>
-    <h1 class="title"> <img src="{{ url_for('static',filename='reddit_preview_rev_1.png') }}" width="30px" /> <img src="{{ url_for('static',filename='slash_transparent.png') }}" width="30px" /> <img src="{{ url_for('static',filename='flashscore.png') }}" width="30px" />  Soccer Scraper</h1>
+    <h1 class="title"> <a class = "title_link" href="{{url_for('home', day=day)}}"> <img src="{{ url_for('static',filename='reddit_preview_rev_1.png') }}" width="30px" /> 
+      <img src="{{ url_for('static',filename='slash_transparent.png') }}" width="30px" /> 
+      <img src="{{ url_for('static',filename='flashscore.png') }}" width="30px" />  
+      Soccer Scraper </a> </h1>
 
       <div class = "wrapper", style="max-width: 100%">
 
         <div class="box_wrapper">
-          {% for result in results %}
-
+        {% for league in leagues_dict %}
+        <div id ="{{leagues_dict[league]}}">
+            <a class="link_class" href = "https://www.flashscore.com/football/{{leagues_dict[league]}}" target="_blank" >
+              <div class="league" id ="{{leagues_dict[league]}}" >
+                {{league}}
+              </div>
+            </a>
+        <!-- </div> -->
+          {% for result in results.filter_by(league=league) %}
+          
         <div id="{{result.match_id}}" style="height: auto;">
-            <a class="link_class" href="http://www.flashscore.com{{result.match_id}}" target="_blank" >
+            <a class="link_class" href="https://www.flashscore.com{{result.match_id}}" target="_blank" >
               <div class = "another_box_wrapper"> 
                 <div class="box">
                     <div class="time">
@@ -32,12 +51,14 @@
                   </div>
               </div>
             </a>
-            <div class="video_wrapper">
+             <div class="video_wrapper">
                 {% for video in videos.query.filter_by(match_id=result.match_id).order_by(asc(videos.creation_date)) %}
                 <div class = "url">
                   <a href="{{video.reddit_url}}" target="_blank"  >{{video.title}}</a> 
-                  <br/>
-                  <!-- <video controls width=500px> -->
+                 <a href="javascript: reload('{{video.reddit_url}}')" style = "float:right; margin-right: 15px;"> 
+                   <img src= "{{ url_for('static',filename='refresh-icon.png') }}" width="13px"/>
+                  </a>
+               <div id="{{video.reddit_url}}">
                 {% if video.source_video != None %}
                   {% if re.search('\.mp4', video.source_video) %}
                 <video controls name = "media" width=640px preload="metadata">
@@ -60,43 +81,53 @@
                 {% endif %}
 
                 {% else %}
-                  <!-- <div width=500px>  -->
-                    <!-- <iframe src="{{video.url}}" sandbox="allow-scripts" allowfullscreen frameborder="0" style="width:500px;height:300px"> -->
-                  <!-- Your browser does not support the video tag. -->
-                  <!-- </iframe> -->
-                <!-- </div>  -->
 
                 {% endif %}
 
-                  <!-- </video> -->
+                </div>
                 </div>
                 {% endfor %}
               </div>
           </div>
+        {% endfor %}
+        </div>
       {% endfor %}
-
         </div>
 
         <div class="aside_wrapper">
+          <div class = "aside" >
+          <div class="date_selector_wrapper">
+            <button class="date_selector_btn">{{current_day.strftime('%Y-%m-%d')}} ({{days[current_day]['string']}})</button>
+            <div class="dropdown-content">
+              {% for day in days %}
+              <a href="{{url_for('.home', day=days[day]['day'])}}">{{day.strftime('%Y-%m-%d')}} ({{days[day]['string']}})</a>
+              {% endfor %}
+            </div>
+          </div>
+          <br>
 
-          <div class="aside">
-            {% for result in results %}
+          <div class="aside_results">
+            {% for league in leagues_dict %}
+            <div class = "aside_league">
+              <a href = "{{url_for('.home', day=day, reload=False,_anchor=leagues_dict[league])}}" >{{league}}</a>
+            </div>
+    
+              {% for result in results.filter_by(league=league) %}
             <div class = "aside_match">
            
               <a href="{{url_for('.home', day=day, reload=False,_anchor=result.match_id)}}">
                 <div class="home_team"> {{result.home_team}} </div>
-                <div class="score"> {{result.score}} </div>
-                <div class="away_team">{{result.away_team}}</div></a>
-              <br />
+                <div class="home_score"> {{result.home_score}}</div>
+                <div class="away_team">{{result.away_team}}</div>
+                <div class="away_score">{{result.away_score}}</div></a>
               </div> 
               {% endfor %}
-                 
+            {% endfor %}    
            </div>
 
-
+          </div>
         </div>
-  </div>
+      </div>
 
-  
     </body>
 </html>

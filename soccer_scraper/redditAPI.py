@@ -20,7 +20,7 @@ def get_reddit_token(device_id,
     SECRET - string object, taken from the reddit apps/prefs site,
             representing your secret key, defaults to REDDIT_SCRAPPER_SECRET env variable
     """
-    print('Retrieving token')
+    print('Retrieving redditAPI token')
     auth = requests.auth.HTTPBasicAuth(CLIENT_ID, SECRET)
 
     data = {'grant_type': 'client_credentials',
@@ -82,7 +82,7 @@ def get_reddit_media(search='', subreddit='soccer', t='week'):
             post['data']['created'])
         reddit_title = post['data']['title']
         reddit_url = 'https://www.reddit.com' + post['data']['permalink']
-        video_url = post['data']['url_overridden_by_dest']
+        video_url = post['data']['url']
        
         videos = videos.append({
                 'title':  reddit_title,

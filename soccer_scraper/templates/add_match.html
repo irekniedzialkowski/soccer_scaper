@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta name="referrer" content="no-referrer" />
+  <title>  Soccer scraper </title>
+  <link rel="stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/soccer_scraper.css') }}" />
+  </head>
+  <body>
+    <h1 class="title"> <a class = "title_link" href="{{url_for('home', day=day)}}"> <img src="{{ url_for('static',filename='reddit_preview_rev_1.png') }}" width="30px" /> 
+      <img src="{{ url_for('static',filename='slash_transparent.png') }}" width="30px" /> 
+      <img src="{{ url_for('static',filename='flashscore.png') }}" width="30px" />  
+      Soccer Scraper </a> </h1>
+
+      <div class = "wrapper", style="max-width: 100%">
+
+        <div class="box_wrapper">
+          {% for result in results %}
+
+        <div id="{{result.match_id}}" style="height: auto;">
+            <form action='#{{result.match_id}}' method='post'>
+              <button class = "another_box_wrapper" name= "{{result.match_id}}"> 
+                <div class="box">
+                    <div class="time">
+                      {{result.time}}
+                    </div>
+                  
+                    <div class="home_team"> {{result.home_team}} </div>
+                    <div class="score"> {{result.score}} </div>
+                    <div class="away_team">{{result.away_team}}</div>
+
+                  </div>
+                </button>
+            </form>
+          </div>
+      {% endfor %}
+
+        </div>
+
+        <div class="aside_wrapper">
+
+          <div class="aside">
+            {% for result in results %}
+            <div class = "aside_match">
+           
+              <a href="{{url_for('.add_match', day=day,_anchor=result.match_id)}}">
+                <div class="home_team"> {{result.home_team}} </div>
+                <div class="score"> {{result.score}} </div>
+                <div class="away_team">{{result.away_team}}</div></a>
+              <br />
+              </div> 
+              {% endfor %}
+                 
+           </div>
+
+
+        </div>
+  </div>
+
+  
+    </body>
+</html>

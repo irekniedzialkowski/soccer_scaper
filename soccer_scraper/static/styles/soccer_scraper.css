@@ -1,4 +1,5 @@
 body {
+  /* background: linear-gradient(to bottom, #353030, #0e0c0c) fixed ; */
   background: #161414;
 }
 
@@ -23,6 +24,7 @@ div {
   border-right-style: solid;
   border-bottom-style:solid;
   border-width: 0.001cm;
+  height: 100%;
 
 }
 
@@ -32,51 +34,93 @@ div {
   flex-direction: row;
   justify-content: center;
   margin:0 auto;
+  vertical-align: baseline;
   /* border-style: dotted; */
 }
 
-.aside{
-      float: right;
-      color: #fff;
-      padding-left: 20px;
-      position: sticky;
-      top: 10px;
-      /* border-style: dotted; */
-      width:280px;
-    }
+
+
+.aside {
+  float: right;
+  color: #fff;
+  padding-left: 20px;
+  /* position: sticky; */
+  position: sticky;
+  top: 39px;
+  bottom: 0;
+  /* border-style: dotted; */
+  width:250px;
+
+}
+
+
+.aside_results::-webkit-scrollbar {
+  width: 12px;               /* width of the entire scrollbar */
+}
+
+.aside_results::-webkit-scrollbar-track {
+  background: rgb(49, 49, 49);        /* color of the tracking area */
+}
+
+.aside_results::-webkit-scrollbar-thumb {
+  background-color: rgb(24, 23, 23);    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 3px solid rgb(73, 73, 73);  /* creates padding around scroll thumb */
+}
+
+.aside_results{
+  margin-top: 10px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 91vh;
+}
 .aside_match {
+  float:left;
   margin: auto;
   overflow: auto;
-  width: 280px;
+  width: 250px;
+  border-top-style: dashed;
+  border-bottom-style: dashed;
+  /* border-right-style: dotted; */
+  border-color: rgba(255, 255, 255, 0.479);
+  border-width: 0.01cm;
+
 }
 
 .aside_match .home_team {
   float:left;
-  width: 120px;
   text-align: left;
-  flex-direction: column;
+  width:200px;
   /* border-style: dotted; */
 }
-    
-.aside_match .score {
-  display: inline-block;
-  text-align: center;
-  width:30px;
-  /* border-style: dotted; */
-
-}
+  
 
 .aside_match .away_team {
-  float:right;
-  text-align: right;
-  width:100;
+  float:left;
+  text-align: left;
+  width:200px;
   /* border-style: dotted; */
 
 }
 
+.aside_match .home_score {
+  text-align:right;
+  margin-right:17px;
 
-@media (max-width: 950px) {
-   .aside {
+  /* border-style: dotted; */
+
+}
+
+.aside_match .away_score {
+  text-align:right;
+  margin-right:17px;
+
+  /* border-style: dotted; */
+
+}
+
+@media (max-width: 960px) {
+   .aside_wrapper {
       display: none;
    }
 }
@@ -86,25 +130,32 @@ element.style {
 }
 
 .title {
+  background: #161414;
   color: #fff;
   font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   /* border-style: dashed; */
-  width:960px;
+  width:950px;
   justify-content: center;
   margin:0 auto;
+  padding-left:10px;
   /* width:1053px;
   margin:0 auto;
   padding-left:5px;
   padding-bottom: 10px; */
-
+  z-index: 10;
+  position: sticky;
+  top: 0px;
   /* justify-content: center; */
   text-align: left;
   /* position: sticky;
   top: 10px; */
-
 }
 
-.match_wrapper{
+.title_link:hover {
+  color: #fff;
+  filter: brightness(100%)
+}
+/* .match_wrapper{
   /* border-style: solid; */
   /* border-bottom-style: solid; */
   /* border-color: rgba(255, 255, 255, 0.479); */
@@ -114,7 +165,6 @@ element.style {
   border-style: solid;
   border-width: 0.001cm; */
 
-}
 
 .video_wrapper {
   background: #242121;
@@ -123,14 +173,13 @@ element.style {
 .another_box_wrapper{
   background: #1c1c1e;
   position: sticky;
-  top: 10px;
-}
+  top: 62px;
 
-.box {
+  /* box values */
   margin: auto;
   border-style: solid;
   border-width: 0.001cm;
-  border-color: rgb(27, 26, 26);
+  /* border-color: rgb(27, 26, 26); */
   width: 640px;
   padding-top:10px;
   padding-bottom:10px;
@@ -140,12 +189,31 @@ element.style {
   text-align: center;
   min-width: 0;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size:medium;
   overflow: auto;
   border-color: rgb(87, 87, 87);
   border-bottom-style: solid;
   border-top-style: solid;
   border-width: 0.001cm;
-  
+  z-index: 8;
+}
+
+.league {
+  background: #1c1c1e;
+
+  font-size: larger;
+  color: #fff;
+  border-top-style: solid;
+  border-width: 0.001cm;
+  border-color: rgb(87, 87, 87);
+  padding-left:10px;
+  position: sticky;
+  top: 39px;
+  z-index: 9;
+  /* border-bottom-style: dotted; */
+
+  /* border-bottom-color: rgb(184, 13, 13); */
+
 
 }
 
@@ -187,6 +255,7 @@ element.style {
   text-align: center;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   padding-top:5px;
+  width: 660px;
 }
 
 .link_class {
@@ -207,7 +276,58 @@ a:visited {
 }
 
 a:hover {
-  color: hotpink;
+  /* color: hotpink; */
+  filter: brightness(85%);
 }
 
- 
+/* Dropdown Button */
+.date_selector_btn {
+  background-color: #1d1d1d;
+  color: white;
+  font-size: 16px;
+  width: 250px;
+  border-color: rgb(87, 87, 87);
+  border-style: solid;
+  border-width: 0.001cm;
+
+}
+
+/* The container <div> - needed to position the dropdown content */
+.date_selector_wrapper{
+  position: sticky;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #3d3d3d;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  width: 248px;
+  text-align: center;
+  border-color: rgb(87, 87, 87);
+  border-style: solid;
+  border-width: 0.001cm;
+
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: white;
+  padding: 6px 9px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: rgb(54, 54, 54);}
+
+/* Show the dropdown menu on hover */
+.date_selector_wrapper:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.date_selector_wrapper:hover .dropbtn {background-color: #3e8e41;}
+

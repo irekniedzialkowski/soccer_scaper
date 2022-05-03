@@ -1,4 +1,4 @@
-from app import website
+from soccer_scraper.views import website
 
 
 @website.route('/')

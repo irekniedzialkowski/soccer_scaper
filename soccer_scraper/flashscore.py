@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import re
 import pandas as pd
 from warnings import warn
-from date_utils import today_add
+from soccer_scraper.date_utils import today_add
 
 
 def get_flashscore_results(sport="", day=0):
@@ -38,6 +38,8 @@ def get_flashscore_results(sport="", day=0):
                     '</span>(?:</span>)?(.+?)(?:<.+>)? -', match).group(1)
                 away_team = re.search('</span>.+- (.+?)<', match).group(1)
                 score = match_soup.find('a').text
+                home_score = re.search("([0-9/-]+)(?:.+)?:.+", score).group(1)
+                away_score = re.search(":([0-9/-]+)", score).group(1)
                 all_matches = all_matches.append({
                     'league': league,
                     'match_id': match_id,
@@ -45,17 +47,28 @@ def get_flashscore_results(sport="", day=0):
                     'away_team': away_team,
                     'time': time,
                     'score': score,
+                    'home_score' : home_score,
+                    'away_score' : away_score,
                     'day': day
                     }, ignore_index=True
                 )
-            except AttributeError:
-                print('Throwing Exception')
+            except AttributeError as e:
+                print('Caught AttributeError Exception: some match will be ommitted from the results')
+                print(match)
+                # print(e)
                 continue
+
+    important_matches = reduce_leagues(all_matches)
+    all_matches['important'] = False
+    important_leagues = important_matches['league'].to_list()
+    important_indexes = all_matches['league'].isin(important_leagues)
+    all_matches.loc[important_indexes, 'important'] = True
 
     return(all_matches)
 
 
 def reduce_leagues(results):
+    results=results.copy()
     results['first_letter'] = results['league'].apply(lambda x: x[0])
     next_league = results['first_letter'][1:]
     next_league.sort_index(inplace=True)
