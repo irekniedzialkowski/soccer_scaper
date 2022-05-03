@@ -1,8 +1,8 @@
 # Reddit and Flashscore SOCCER SCRAPER
 Flask Application retrieving all videos from reddit and mapping to the matches from flashscore.
-App uses the flask framework to create a website retrieving all the relevant highlights from football/soccer matches.
+App uses the Flask framework to create a website retrieving all the relevant highlights from football/soccer matches.
 
-# Website as of 23 January 2022
+# Website as of May 3, 2022
 https://irekniedzialkowski.github.io/index
 
 
